@@ -82,16 +82,30 @@ class dataStore():
     
     def update_user_property(self, cursor, user, property, value, editor='not provided'):
         query = f'''
-            INSERT OR REPLACE INTO user-data SET {property}='{value}' WHERE node_num='{user};'
+            INSERT INTO user-data SET {property}='{value}' WHERE node_num='{user};'
             UPDATE user-data SET last-edit_ISO8601 = '{datetime.datetime.now().isoformat()}' WHERE node_num='{user}';
         '''
         cursor.execute(query)
         cursor.commit()
 
     # Scavenger Hunt Management
+    # Need to update scavenger_hunts table. Work not finished yet.
     def create_scavenger_hunt(self, cursor, scavenger_hunt_name=f"Scavenger_hunt-{datetime.datetime.now().isoformat()}"):
         query = f'''
-            INSERT OR REPLACE INTO scavenger-hunts SET {property}='{value}' WHERE node_num='{user};'
+            INSERT INTO scavenger-hunts (scavenger_name, scavenger_hunt_description, scavenger_table, scavenger_time_constrained, scavenger_start_time_ISO8601, );
+        INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);
+
+                id INTERGER PRIMARY KEY, 
+                scavenger_name TEXT NOT NULL, 
+                scavenger_hunt_description TEXT NOT NULL,
+                scavenger_table TEXT NOT NULL, 
+                scavenger_time_constrained BOOL NOT NULL, 
+                scavenger_start_time_ISO8601 TEXT, 
+                scavenger_end_time_ISO8601 TEXT,
+                scavenger_last_activity_ISO8601 TEXT,
+                scavenger_last_user TEXT,
+                scavenger_edit_ISO8601 TEXT
+
 
             CREATE TABLE IF NOT EXISTS {scavenger_hunt_name} (
                 id INTERGER PRIMARY KEY,
