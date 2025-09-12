@@ -5,6 +5,11 @@ if not path in sys.path:
     sys.path.insert(1, path)
 del path
 
+if os.path.exists("test-db.db"):
+  os.remove("test-db.db")
+else:
+  print("Database does not already exist.")
+
 print(os.path.dirname(os.path.realpath(__file__)) + '/sysmods')
 
 print(f"----\nPython Path:\n{sys.path}\n----\n")
@@ -44,21 +49,19 @@ print(f"\n---> Result should be 'testHunt-{user_date}'")
 print(f"Test UserDat is Value: {dataStore.read_user_property(db, f"13{user_date}", "current_hunt")}")
 
 print("\n\n_______SECTION_______: Scavenger Data")
-dataStore.create_scavenger_hunt(db, f"testHunt-temp")
+dataStore.create_scavenger_hunt(db, f"testHunt")
 print("\n_______SECTION_______: List Scavenger Hunts")
 for hunt in dataStore.get_scavenger_hunts(db):
     print(hunt[0])
 
 print("\n_______SECTION_______: add Scavenger Hunt steps to test hunt")
 
-properties = {
-    "type":"loc",
-    "enabled":True,
-    "longitude":"12",
-    "latitude":"13"
-}
-for prop, value in properties.items():
-    dataStore.write_scavenger_step_property(db, f"testHunt-temp", 1, f"{prop}", f"{value}")
+
+dataStore.create_scavenger_hunt_step(db, f"testHunt")
+dataStore.write_scavenger_step_property(db, f"testHunt", "1", f"type", f"loc")
+
+dataStore.create_scavenger_hunt_step(db, "testHunt")
+dataStore.write_scavenger_step_properties(db, "testHunt", "2", {"type":"loc","enabled":True,"longitude":"12","latitude":"13"})
 
 print("\n_______SECTION_______: READ Scavenger Hunts")
-print(dataStore.get_scavenger_steps(db, "testHunt-temp"))
+print(dataStore.get_scavenger_steps(db, "testHunt"))

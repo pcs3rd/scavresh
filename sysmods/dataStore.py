@@ -65,7 +65,6 @@ class dataStore():
             ]
         
         for command in querry:
-            print(command)
             session[1].execute(command)
             session[0].commit()
 
@@ -82,6 +81,9 @@ class dataStore():
         session[1].execute(query)
         return session[1].fetchone()[0]
     
+    def create_user(session):
+        pass
+
     def write_user_property(session, user, property, value, editor='000000000'):
         querry = [f'''INSERT OR REPLACE INTO user_data (node_num,{property},last_edit_by,last_edit) VALUES ({user},'{value}','{editor}','{datetime.datetime.now().isoformat()}');'''
         ]
@@ -151,32 +153,23 @@ class dataStore():
     
     def get_scavenger_steps(session, scavenger_hunt_name):
         query = f'''
-            SELECT * FROM '{dataStore.sanitize_input(scavenger_hunt_name)}' WHERE enabled=True
+            SELECT * FROM '{dataStore.sanitize_input(scavenger_hunt_name)}';
         '''
         session[1].execute(query)
         return session[1].fetchall()
     
-    def write_scavenger_step_property(session, scavenger_name,  id, property, value):
-        query = f'''
-            #"SELECT rowid FROM components WHERE name = ?", (name,)
-            if empty
-            do:
-            INSERT OR REPLACE INTO {dataStore.sanitize_input(scavenger_name)} (id, {property}) VALUES ('{id}','{value}');
-            else: 
-            UPDATE {dataStore.sanitize_input(scavenger_name)} ({property}) VALUES ('{value}')
-        '''
-            #INSERT INTO "{dataStore.sanitize_input(scavenger_name)}" SET {property} = '{value}'
+    def create_scavenger_hunt_step(session, scavenger_name):
+        query = f'''INSERT INTO {dataStore.sanitize_input(scavenger_name)} DEFAULT VALUES;'''
+        session[1].execute(query)
+        session[0].commit()
+    
+    def write_scavenger_step_property(session, scavenger_name, id, property, value):
+        query = f'''UPDATE {dataStore.sanitize_input(scavenger_name)} SET {property} = '{value}' WHERE id={id};'''
         session[1].execute(query)
         session[0].commit()
 
-                # '''id INTERGER PRIMARY KEY,
-                # name TEXT NOT NULL, 
-                # type TEXT NOT NULL,
-                # required_previous_step BOOL NOT NULL,
-                # enabled BOOL NOT NULL, 
-                # previous_step_index INT,
-                # hint TEXT, 
-                # longitude NUMERICAL, 
-                # latitude NUMERICAL, 
-                # answer TEXT,
-                # created_by int(9) NOT NULL'''
+    def write_scavenger_step_properties(session, scavenger_name, id, propertyDict):
+        for property, value in propertyDict.items():
+            query = f'''UPDATE {dataStore.sanitize_input(scavenger_name)} SET {property} = '{value}' WHERE id={id};'''
+            session[1].execute(query)
+        session[0].commit()
