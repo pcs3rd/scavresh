@@ -1,7 +1,6 @@
 from typing import Union, Annotated
 
 from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 
 
@@ -18,6 +17,6 @@ class rest_Server:
         def a(item_id: int, item: Item):
             return {"item_name": item.name, "item_id": item_id}
         
-        @self.app_api.put("/api/user/")
+        @self.app_api.put("/api/{node}/{property}")
         def a(item_id: int, item: Item):
             return {"item_name": item.name, "item_id": item_id}

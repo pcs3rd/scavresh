@@ -17,7 +17,6 @@ class dataStore():
         one = ["crazy", "fast", "slow", "careful", "horse"]
         two = ["horse", "cat", "dog", "pig", "barfs"]
         three = ["jump", "nap", "sleep", "watch", "ponder"]
-        num = random.randrange(0,5)
         return f"{one[random.randrange(0,5)]} {two[random.randrange(0,5)]} {three[random.randrange(0,5)]}"
 
     def session(name="default.db"):

@@ -1,0 +1,16 @@
+{
+    "metadata": {
+        "Author": "KC3ZXI",
+        "Source": "Upstream",
+        "Version": "0.1a",
+        "command_list": [ "example", "help" ],
+        "code_file": "example.py"
+    },
+    "function_conf": {
+        "class": "example",
+        "functions": {
+            "example": "fn_example",
+            "help": "fn_help"
+        }
+    }
+}
